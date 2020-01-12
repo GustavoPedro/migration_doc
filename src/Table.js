@@ -1,8 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import Drawer from '../Drawer/drawer'
 
-export default function Objects() {
+export default function Table() {
   const [state, setState] = React.useState({
     columns: [
       { title: 'Name', field: 'name' },
@@ -13,8 +12,7 @@ export default function Objects() {
     ],
   });
 
-  return (
-    <Drawer>
+  return (    
       <MaterialTable
         title="Objects"
         columns={state.columns}
@@ -56,7 +54,6 @@ export default function Objects() {
               }, 600);
             }),
         }}
-      />
-    </Drawer>
+      />    
   );
 }
