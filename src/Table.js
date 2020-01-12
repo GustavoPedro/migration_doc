@@ -1,17 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 
-export default function Table() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Description', field: 'description' },      
-    ],
-    data: [
-      {name: 'Gustavo',description: 'Pedro'}
-    ],
-  });
-
+export default function Table(props) {
+  const {state,setState} = props
   return (    
       <MaterialTable
         title="Objects"
