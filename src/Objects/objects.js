@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Table from '../Table'
 import Drawer from '../Drawer/drawer'
 
+
 export default function Objects() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     columns: [
       { title: 'Name', field: 'name' },
       { title: 'Description', field: 'description' },
@@ -14,7 +15,7 @@ export default function Objects() {
   });
   return (
     <Drawer>
-      <Table state={state} setState={setState} />
+      <Table state={state} setState={setState} title="Objects" />
     </Drawer>
   )
 }

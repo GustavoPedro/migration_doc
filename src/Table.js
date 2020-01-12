@@ -3,9 +3,10 @@ import MaterialTable from 'material-table';
 
 export default function Table(props) {
   const {state,setState} = props
+  const {title} = props
   return (    
       <MaterialTable
-        title="Objects"
+        title={title}
         columns={state.columns}
         data={state.data}
         editable={{
