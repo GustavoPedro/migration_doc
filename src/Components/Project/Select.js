@@ -3,7 +3,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import useStyles from './styles'
+import useStyles from './ProjectStyles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,10 +11,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Redirect } from 'react-router-dom';
-import ModalAddClient from './modalAddClient'
+import ProjectAddNew from './AddNew'
 
 
-export default function CadastrarProjeto(props) {
+export default function ProjectSelect(props) {
     const classes = useStyles();
     const [projeto, setProjeto] = useState('')
     const [cliente, setCliente] = useState('')
@@ -154,7 +154,7 @@ export default function CadastrarProjeto(props) {
                     </FormControl>
                 </Grid>
             </Grid>
-           <ModalAddClient openModal={openModal} handleCloseModal={handleCloseModal} classes={classes} btnText={btnModalText} btnModalOnClick={btnModalOnClick}/>           
+           <ProjectAddNew openModal={openModal} handleCloseModal={handleCloseModal} classes={classes} btnText={btnModalText} btnModalOnClick={btnModalOnClick}/>           
         </div>
     );
 }

@@ -1,8 +1,7 @@
 import React,{useState} from 'react';
-import Drawer from '../Drawer/drawer';
-import Table from '../Table'
+import UtilsTable from '../Utils/Table'
 
-const ConditionalExpression = () => {
+const ConditionalExpressionCRUD = () => {
   const [tableExprConditional, setTableExprConditional] = useState({
     columns: [
       { title: 'Name', field: 'name' },
@@ -13,10 +12,10 @@ const ConditionalExpression = () => {
     ],   
   });
   return (
-    <Drawer>
-      <Table state={tableExprConditional} setState={setTableExprConditional} title={'Conditional Expressions'}/>
-    </Drawer>
+    <UtilsDrawer>
+      <UtilsTable state={tableExprConditional} setState={setTableExprConditional} title={'Conditional Expressions'}/>
+    </UtilsDrawer>
   );
 }
 
-export default ConditionalExpression
+export default ConditionalExpressionCRUD

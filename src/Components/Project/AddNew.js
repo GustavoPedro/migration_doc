@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 
-export default function AddClient(props) { 
+export default function AddNew(props) { 
     const {classes,openModal,handleCloseModal,btnText,btnModalOnClick} = props
     const [nome,setNome] = useState('')
     const [descricao,setDescricao] = useState('')

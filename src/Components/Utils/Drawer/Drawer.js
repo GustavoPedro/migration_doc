@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BuildIcon from '@material-ui/icons/Build';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import useStyles from './styles'
+import useStyles from './DrawerStyles'
 import {Redirect} from 'react-router-dom'
 
 

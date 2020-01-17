@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Table from '../Table'
-import Drawer from '../Drawer/drawer'
+import UtilsTable from '../Utils/Table'
+import UtilsDrawer from '../Utils/Drawer/Drawer'
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import useStyles from './styles'
+import useStyles from './ObjectsStyles'
 
-export default function Objects(props) {
+export default function ObjectsCRUD(props) {
   const [open, setOpen] = useState(false);
   const [rowData, setRowData] = useState(null)
   const classes = useStyles()   
@@ -58,8 +58,8 @@ export default function Objects(props) {
   };
   
   return (
-    <Drawer>
-      <Table state={tableObjects} setState={setTableObjects} title="Objects" />
+    <UtilsDrawer>
+      <UtilsTable state={tableObjects} setState={setTableObjects} title="Objects" />
       <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -74,10 +74,10 @@ export default function Objects(props) {
       >
           <Fade in={open}>
               <div className={classes.paper}>
-              <Table state={tableAttributes} setState={setTableAttributes} title={`Attributes for object ${rowData && rowData.name}`} />
+              <UtilsTable state={tableAttributes} setState={setTableAttributes} title={`Attributes for object ${rowData && rowData.name}`} />
               </div>
           </Fade>
       </Modal>    
-    </Drawer>
+    </UtilsDrawer>
   )
 }
