@@ -1,12 +1,11 @@
 import React from 'react';
-import { ConditionalExpressionsCRUD } from '../../Components/ConditionalExpressions/CRUD';
-import UtilsDrawer from '../../Components/Utils/Drawer';
+import  ConditionalExpressionsCRUD  from '../../Components/ConditionalExpressions/CRUD';
 
-export default function ConditionalExpressionsForm(props){
+export default function ConditionalExpressionsForm(props) {
     return (
-        <UtilsDrawer>
+        <div>
             <ConditionalExpressionsCRUD />
-        </UtilsDrawer>
+        </div>
     )
 }
 

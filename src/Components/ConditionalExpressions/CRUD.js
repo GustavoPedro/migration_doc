@@ -12,9 +12,9 @@ const ConditionalExpressionCRUD = () => {
     ],   
   });
   return (
-    <UtilsDrawer>
+    <div>
       <UtilsTable state={tableExprConditional} setState={setTableExprConditional} title={'Conditional Expressions'}/>
-    </UtilsDrawer>
+    </div>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import UtilsTable from '../Utils/Table'
-import UtilsDrawer from '../Utils/Drawer/Drawer'
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -58,7 +57,7 @@ export default function ObjectsCRUD(props) {
   };
   
   return (
-    <UtilsDrawer>
+    <div>
       <UtilsTable state={tableObjects} setState={setTableObjects} title="Objects" />
       <Modal
           aria-labelledby="transition-modal-title"
@@ -78,6 +77,6 @@ export default function ObjectsCRUD(props) {
               </div>
           </Fade>
       </Modal>    
-    </UtilsDrawer>
+    </div>
   )
 }
