@@ -5,7 +5,7 @@ import MaterialTable from 'material-table';
 export default function Table(props) {
   const { state, setState, title } = props  
   return (
-    <MaterialTable
+    <MaterialTable      
       actions={state.actions}
       title={title}
       columns={state.columns}

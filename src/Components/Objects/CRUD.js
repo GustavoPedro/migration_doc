@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import UtilsTable from '../Utils/Table'
-import useStyles from './ObjectsStyles'
-import AttributesCRUD from '../Attributes/CRUD'
+import Tabs from './Tabs'
+import UtilsDialog from '../Utils/DialogFullScreen/Dialog'
+
 
 export default function ObjectsCRUD(props) {
   const [open, setOpen] = useState(false);
@@ -29,25 +30,27 @@ export default function ObjectsCRUD(props) {
             // })   
             
             // ==============================================================================        
-            handleOpenModal(rowData)
+            handleOpenDialog(rowData)
         }
       }
     ]
   });  
 
-  const handleOpenModal = (rowData) => { 
+  const handleOpenDialog = (rowData) => { 
     setRowData(rowData)
     setOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseDialog = () => {
     setOpen(false);
   };
   
   return (
     <div>
       <UtilsTable state={tableObjects} setState={setTableObjects} title="Objects" />    
-      <AttributesCRUD  open={open} handleCloseModal={handleCloseModal} object={rowData}/>
+      <UtilsDialog open={open}  handleCloseDialog={handleCloseDialog} object={rowData} title="Object Properties ">
+          <Tabs/>
+      </UtilsDialog>
     </div>
   )
 }
