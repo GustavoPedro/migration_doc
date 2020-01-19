@@ -1,8 +1,7 @@
 import React from 'react';
-import Routes from './Screens/routes';
+import StarterRoute from './Screens/StarterRoute';
 
-
-const App = () =>  <Routes />;
+const App = () =>  <StarterRoute />;
 
 
 export default App

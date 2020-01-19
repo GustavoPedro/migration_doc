@@ -92,7 +92,7 @@ export default function ProjectSelect(props) {
 
     return (
         <div>
-            {redirectToMenu && <Redirect to='/objects' />}
+            {redirectToMenu && <Redirect to='/project' />}
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>

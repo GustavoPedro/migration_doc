@@ -44,15 +44,15 @@ export default function PersistentDrawerLeft(props) {
 
   const getMenuItems = [{
     Title: 'Objects',
-    path: '/objects'
+    path: '/project/objects'
   },
   {
     Title: 'Conditional Expressions',
-    path: '/condExpression'
+    path: '/project/condExpression'
   },
   {
     Title: 'Applications',
-    path: '/applications'
+    path: '/project/applications'
   }
   ]
   

@@ -1,0 +1,26 @@
+Applications
+    SigOptions
+    Select Action
+
+Objects
+    Attributes
+    LookupMap
+    Relationships
+
+Domains
+
+Scripts
+
+Messages
+
+System Properties
+
+Conditional expression
+
+Escalations:
+    Actions
+    CommTemplate
+
+LOOKUPS
+LIBRARY
+
