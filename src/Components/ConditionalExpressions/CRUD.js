@@ -1,21 +1,48 @@
-import React,{useState} from 'react';
-import UtilsTable from '../Utils/Table'
+import React, { useState } from 'react';
+import UtilsTable from '../Utils/Table';
+import axios from 'axios';
 
 const ConditionalExpressionCRUD = () => {
-  const [tableExprConditional, setTableExprConditional] = useState({
+  let isMounted = true;
+  const getData = () => {
+
+  }
+  const [state,setState] = useState({
     columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Description', field: 'description' },
+      { title: 'ConditionNum', field: 'Conditionnum' },
+      { title: 'Description', field: 'Description' },
     ],
     data: [
-      { name: 'Gustavo', description: 'Pedro' }
-    ],   
-  });
-  return (
-    <div>
-      <UtilsTable state={tableExprConditional} setState={setTableExprConditional} title={'Conditional Expressions'}/>
-    </div>
-  );
+      { Conditionnum: 'Gustavo', Description: 'Pedro' }
+    ]
+  })
+
+  const handleRowAdd = (newData) => {
+      const data ={
+        ...newData,
+        ProjectID: 2
+      }
+      axios.post("http://localhost:5000/Conditions",data)
+      .then(res => {
+        console.log(res)
+      }).catch(err =>{
+        console.log(err)
+      })
+  }
+
+  const handleRowUpdate = (oldData,newData) => {
+    console.log(newData)
+  }
+
+  const handleRowDelete= (oldData,newData) => {
+    console.log(newData)
+  }
+
+return (
+  <div>
+    <UtilsTable state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} />
+  </div>
+);
 }
 
 export default ConditionalExpressionCRUD

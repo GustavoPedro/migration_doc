@@ -3,9 +3,9 @@ import MaterialTable from 'material-table';
 
 
 export default function Table(props) {
-  const { state, setState, title } = props  
+  const { state, setState, title,handleRowAdd } = props
   return (
-    <MaterialTable      
+    <MaterialTable
       actions={state.actions}
       title={title}
       columns={state.columns}
@@ -15,6 +15,7 @@ export default function Table(props) {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
+              handleRowAdd(newData)
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
