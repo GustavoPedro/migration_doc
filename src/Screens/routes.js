@@ -12,7 +12,7 @@ const Routes = () => {
             <Switch>                
                 <Route exact path="/project" component={ObjectsForm}/>
                 <Route exact path="/project/objects" component={ObjectsForm}/>
-                <Route exact path="/project/condExpression" component={ConditionalExpressionForm}/>
+                <Route path="/project/condExpression" component={ConditionalExpressionForm}/>
             </Switch>
         </UtilsDrawer>
     </BrowserRouter>

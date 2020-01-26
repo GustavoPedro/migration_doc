@@ -1,48 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UtilsTable from '../Utils/Table';
-import axios from 'axios';
+import axios from '../../data/axios';
 
-const ConditionalExpressionCRUD = () => {
-  let isMounted = true;
-  const getData = () => {
-
-  }
-  const [state,setState] = useState({
+export default function ConditionalExpressionCRUD(props) {
+  const [state, setState] = useState({
     columns: [
-      { title: 'ConditionNum', field: 'Conditionnum' },
-      { title: 'Description', field: 'Description' },
+      { title: 'ConditionNum', field: 'conditionnum' },
+      { title: 'Description', field: 'description' },
     ],
     data: [
-      { Conditionnum: 'Gustavo', Description: 'Pedro' }
+      { id: 'Eae', conditionnum: 'Gustavo', description: 'Pedro' }
     ]
   })
 
-  const handleRowAdd = (newData) => {
-      const data ={
-        ...newData,
-        ProjectID: 2
+  useEffect(() => {
+    getData()
+  }, []);
+
+  const getData = async () => {
+    try {
+      let res = await axios.get("Conditions")
+      if (res.status == 200) {
+        setState(prevState => {
+          const data = [...res.data]
+          return { ...prevState, data }
+        })
       }
-      axios.post("http://localhost:5000/Conditions",data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
+
+  const handleRowAdd = (newData) => {
+    const data = {
+      ...newData,
+      ProjectID: 2
+    }
+    axios.post("Conditions", data)
       .then(res => {
+        if (res.status == 201) {
+          setState(prevState => {
+            const data = [...prevState.data];
+            data.push(res.data);
+            return { ...prevState, data };
+          });
+        }
         console.log(res)
-      }).catch(err =>{
+      }).catch(err => {
         console.log(err)
       })
   }
 
-  const handleRowUpdate = (oldData,newData) => {
-    console.log(newData)
+  const handleRowUpdate = (oldData,condition) => {
+    axios.put(`Conditions/${condition.id}`, condition)
+      .then(res => {
+        console.log(res)
+        if (res.status == 204) {
+          setState(prevState => {
+            const data = [...prevState.data];
+            data[data.indexOf(oldData)] = condition;
+            return { ...prevState, data };
+          });
+        }
+        return false;
+      })
+      .catch(err => {
+        console.log(err)        
+      })
   }
 
-  const handleRowDelete= (oldData,newData) => {
-    console.log(newData)
+  const handleRowDelete = (condition) => {
+    axios.delete(`Conditions/${condition.id}`)
+      .then(res => {
+        if (res.status == 200) {
+          setState(prevState => {
+            const data = [...prevState.data];
+            data.splice(data.indexOf(condition), 1);
+            return { ...prevState, data };
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err)        
+      })
   }
 
-return (
-  <div>
-    <UtilsTable state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} />
-  </div>
-);
+  return (
+    <div>
+      <UtilsTable state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} handleRowUpdate={handleRowUpdate} handleRowDelete={handleRowDelete} />
+    </div>
+  );
 }
-
-export default ConditionalExpressionCRUD
