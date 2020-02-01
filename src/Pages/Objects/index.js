@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import UtilsTable from '../Utils/Table'
+import UtilsTable from '../../Components/Table'
 import Tabs from './Tabs'
-import UtilsDialog from '../Utils/DialogFullScreen/Dialog'
+import UtilsDialog from '../../Components/DialogFullScreen'
 
 
 export default function ObjectsCRUD(props) {

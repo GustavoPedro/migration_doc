@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import UtilsTable from '../Utils/Table';
+import Table from '../../Components/Table';
 import axios from '../../data/axios';
 
-export default function ConditionalExpressionCRUD(props) {
+export default function ConditionalExpressionForm(props) {
   const [state, setState] = useState({
     columns: [
-      { title: 'ConditionNum', field: 'conditionnum' },
-      { title: 'Description', field: 'description' },
+      { title: 'ConditionNum', field: 'Conditionnum' },
+      { title: 'Description', field: 'Description' },
     ],
     data: [
-      { id: 'Eae', conditionnum: 'Gustavo', description: 'Pedro' }
+      { id: 'Eae', Conditionnum: 'Gustavo', Description: 'Pedro' }
     ]
   })
 
@@ -25,6 +25,7 @@ export default function ConditionalExpressionCRUD(props) {
           const data = [...res.data]
           return { ...prevState, data }
         })
+        console.log(res)
       }
     }
     catch (err) {
@@ -89,7 +90,7 @@ export default function ConditionalExpressionCRUD(props) {
 
   return (
     <div>
-      <UtilsTable state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} handleRowUpdate={handleRowUpdate} handleRowDelete={handleRowDelete} />
+      <Table state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} handleRowUpdate={handleRowUpdate} handleRowDelete={handleRowDelete} />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import UtilsTable from '../Utils/Table'
-import useStyles from '../Objects/ObjectsStyles'
+import UtilsTable from '../../../Components/Table'
+import useStyles from './styles'
 
-export default function AttributesCRUD(props) {
+export default function AttributesForm(props) {
     const classes = useStyles()
     const {object} = props
     const [tableAttributes, setTableAttributes] = useState({

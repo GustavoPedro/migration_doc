@@ -1,11 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({  
-    modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+const useStyles = makeStyles(theme => ({
     paper: {
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
-import useStyles from './ProjectStyles';
+import useStyles from './styles';
 import Fab from '@material-ui/core/Fab';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,9 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Redirect } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
-import axios from "../../data/axios";
 import Dialog from '@material-ui/core/Dialog';
-import UtilsTable from '../Utils/Table'
+import axios from "../../data/axios";
+import UtilsTable from '../../Components/Table'
 
 export default function ProjectSelect(props) {
     const classes = useStyles();

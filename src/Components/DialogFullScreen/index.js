@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import useStyles from './DialogStyles'
-import Transition from './DialogTransitions'
+import useStyles from './styles'
+import Transition from './transitions'
 
 
 
