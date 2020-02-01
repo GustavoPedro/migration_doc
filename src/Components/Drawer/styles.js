@@ -54,6 +54,9 @@ const useStyles = makeStyles(theme => ({
       }),
       marginLeft: 0,
     },
+    Project:{
+      marginLeft:20
+    },
   }));
 
   export default useStyles;

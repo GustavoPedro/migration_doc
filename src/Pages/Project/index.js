@@ -18,24 +18,44 @@ import UtilsTable from '../../Components/Table'
 export default function ProjectSelect(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('');
+    const [IdClient, setIdClient] = useState(-1)
+    const [selectedValueClient, setSelectedValueClient] = useState('');
+    const [selectedValueProject, setSelectedValueProject] = useState('');
+    const [IdProject,setIdProject] = useState(-1)
     const [redirectToMenu, setRedirectToMenu] = useState(false)
-    const [projects,setProjects] = useState()
+    const [openProjecs, setOpenProjects] = useState(false)
+    const [projects, setProjects] = useState({
+        actions: [
+            {
+                icon: 'add ',
+                tooltip: 'Select Project',
+                onClick: (event, rowData) => {
+                    setSelectedValueProject(rowData.Name);
+                    setIdProject(rowData.Id)
+                    setOpenProjects(false)
+                }
+            }
+        ],
+        columns: [
+            { title: 'Name', field: 'Name' },
+            { title: 'Description', field: 'Description' },
+        ],
+        date: [
+
+        ]
+    })
     const [clients, setClients] = useState({
-        actions:[
+        actions: [
             {
                 icon: 'add ',
                 tooltip: 'Select Client',
                 onClick: (event, rowData) => {
-                    setSelectedValue(rowData.Name);
+                    setSelectedValueClient(rowData.Name);
                     setOpen(false)
-                    setProjects(prevState => {                        
-                        let client = clients.data.filter(cli => {                            
-                            return cli.Id > 1
-                        })
-                        console.log(client)
-                        const projects = client.projects
-                        return {...projects}
+                    setIdClient(rowData.Id)
+                    setProjects(prevState => {
+                        const data = [...rowData.Projects]
+                        return { ...prevState, data }
                     })
                 }
             }
@@ -48,7 +68,7 @@ export default function ProjectSelect(props) {
 
         ]
     })
-    const [openProjecs, setOpenProjects] = useState(false)
+
 
     useEffect(() => {
         getData()
@@ -84,12 +104,38 @@ export default function ProjectSelect(props) {
             })
     }
 
-    const handleRowUpdateClient = () => {
-
+    const handleRowUpdateClient = (oldData, newData) => {
+        axios.put(`Clients/${newData.Id}`, newData)
+            .then(res => {
+                console.log(res)
+                if (res.status == 204) {
+                    setClients(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                    });
+                }
+                return false;
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
-    const handleRowDeleteClient = () => {
-
+    const handleRowDeleteClient = (client) => {
+        axios.delete(`Clients/${client.Id}`)
+            .then(res => {
+                if (res.status == 200) {
+                    setClients(prevState => {
+                        const data = [...prevState.data];
+                        data.splice(data.indexOf(client), 1);
+                        return { ...prevState, data };
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleOpen = () => {
@@ -101,24 +147,69 @@ export default function ProjectSelect(props) {
         setOpen(false);
     };
 
-    const selectProject = value => {
-        setSelectedValue(value);
+    const handleRowAddProject = (project) => {        
+        project.ClientID = IdClient
+        axios.post('Projects', project)
+            .then(res => {
+                if (res.status == 201) {
+                    setProjects((prevState) => {
+                        const data = [...prevState.data];
+                        data.push(res.data);
+                        return { ...prevState, data };
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    } 
+
+    const handleRowUpdateProject = (oldData, newData) => {
+        axios.put(`Projects/${newData.Id}`, newData)
+            .then(res => {                
+                if (res.status == 204) {
+                    setProjects(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                    });
+                }
+                return false;
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const handleRowDeleteProject = (project) => {
+        axios.delete(`Projects/${project.Id}`)
+            .then(res => {
+                if (res.status == 200) {
+                    setProjects(prevState => {
+                        const data = [...prevState.data];
+                        data.splice(data.indexOf(project), 1);
+                        return { ...prevState, data };
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const handleCloseProjects = value => {
         setOpenProjects(false);
-        //setSelectedValue(value);
     };
 
     const handleOpenProjecs = () => {
         setOpenProjects(true)
     }
 
-
     const onClickContinue = () => {
-        //if (projeto && cliente) {
-        setRedirectToMenu(true)
-        //}
+        if (selectedValueClient && selectedValueProject && IdProject) {            
+            localStorage.setItem("Project",JSON.stringify({IdProject: IdProject,NameProject: selectedValueProject}))
+            setRedirectToMenu(true)
+        }
     }
 
     return (
@@ -144,7 +235,7 @@ export default function ProjectSelect(props) {
                 <CssBaseline />
                 <Grid item xs={12}>
                     <FormControl className={classes.formControl}>
-                        <Input placeholder="Placeholder" value={selectedValue} inputProps={{ 'aria-label': 'description' }} />
+                        <Input placeholder="Client" value={selectedValueClient} inputProps={{ 'aria-label': 'description' }} />
                     </FormControl>
                     <FormControl className={classes.formControl}>
                         <Fab color="primary" onClick={handleOpen}>
@@ -152,7 +243,7 @@ export default function ProjectSelect(props) {
                         </Fab>
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <Input placeholder="Placeholder" inputProps={{ 'aria-label': 'description' }} />
+                        <Input placeholder="Project" value={selectedValueProject} inputProps={{ 'aria-label': 'description' }} />
                     </FormControl>
                     <FormControl className={classes.formControl}>
                         <Fab color="primary" onClick={handleOpenProjecs}>
@@ -165,7 +256,7 @@ export default function ProjectSelect(props) {
                 <UtilsTable state={clients} setState={setClients} title='Clients' handleRowAdd={handleRowAddClient} handleRowUpdate={handleRowUpdateClient} handleRowDelete={handleRowDeleteClient} />
             </Dialog>
             <Dialog open={openProjecs} onClose={handleCloseProjects} aria-labelledby="form-dialog-title">
-                <UtilsTable state={clients} setState={setClients} title='Projects' handleRowAdd={handleRowAddClient} handleRowUpdate={handleRowUpdateClient} handleRowDelete={handleRowDeleteClient} />
+                <UtilsTable state={projects} setState={setProjects} title='Projects' handleRowAdd={handleRowAddProject} handleRowUpdate={handleRowUpdateProject} handleRowDelete={handleRowDeleteProject} />
             </Dialog>
         </div>
     );
