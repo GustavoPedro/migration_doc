@@ -1,9 +1,12 @@
 import React from 'react';
 import {BrowserRouter,Switch, Route} from 'react-router-dom'
+import Drawer from './Components/Drawer'
+// Forms
 import ObjectsForm from './Pages/Objects'
 import ProjectForm from './Pages/Project'
 import ConditionalExpressionForm from './Pages/ConditionalExpressions'
-import Drawer from './Components/Drawer'
+import ApplicationsForm from './Pages/Applications'
+
 
 const MainRoute = () => {
     return (
@@ -13,6 +16,7 @@ const MainRoute = () => {
                 <Route exact path="/project" component={ObjectsForm}/>
                 <Route exact path="/project/objects" component={ObjectsForm}/>
                 <Route path="/project/condExpression" component={ConditionalExpressionForm}/>
+                <Route path="/project/applications" component={ApplicationsForm}/>
             </Switch>
         </Drawer>
     </BrowserRouter>

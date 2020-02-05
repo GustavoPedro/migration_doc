@@ -3,6 +3,8 @@ import Table from '../../Components/Table';
 import axios from '../../data/axios';
 
 export default function ConditionalExpressionForm(props) {
+
+  const [project, setProject] = useState({})
   const [state, setState] = useState({
     columns: [
       { title: 'ConditionNum', field: 'Conditionnum' },
@@ -19,13 +21,21 @@ export default function ConditionalExpressionForm(props) {
 
   const getData = async () => {
     try {
-      let res = await axios.get("Conditions")
-      if (res.status == 200) {
-        setState(prevState => {
-          const data = [...res.data]
-          return { ...prevState, data }
-        })
-        console.log(res)
+      let project = localStorage.getItem("Project")
+      if (project) {
+        project = JSON.parse(project)
+        setProject(project)
+        let res = await axios.get(`Conditions?projectId=${project.IdProject}`)
+        if (res.status == 200) {
+          setState(prevState => {
+            const data = [...res.data]
+            return { ...prevState, data }
+          })
+          console.log(res)
+        }
+      }
+      else{
+        console.log('Selecione um projeto')
       }
     }
     catch (err) {
@@ -37,7 +47,7 @@ export default function ConditionalExpressionForm(props) {
   const handleRowAdd = (newData) => {
     const data = {
       ...newData,
-      ProjectID: 2
+      ProjectID: project.IdProject
     }
     axios.post("Conditions", data)
       .then(res => {
@@ -54,8 +64,8 @@ export default function ConditionalExpressionForm(props) {
       })
   }
 
-  const handleRowUpdate = (oldData,condition) => {
-    axios.put(`Conditions/${condition.id}`, condition)
+  const handleRowUpdate = (oldData, condition) => {
+    axios.put(`Conditions/${condition.Id}`, condition)
       .then(res => {
         console.log(res)
         if (res.status == 204) {
@@ -68,12 +78,12 @@ export default function ConditionalExpressionForm(props) {
         return false;
       })
       .catch(err => {
-        console.log(err)        
+        console.log(err)
       })
   }
 
   const handleRowDelete = (condition) => {
-    axios.delete(`Conditions/${condition.id}`)
+    axios.delete(`Conditions/${condition.Id}`)
       .then(res => {
         if (res.status == 200) {
           setState(prevState => {
@@ -84,7 +94,7 @@ export default function ConditionalExpressionForm(props) {
         }
       })
       .catch(err => {
-        console.log(err)        
+        console.log(err)
       })
   }
 

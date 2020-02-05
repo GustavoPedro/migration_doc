@@ -51,6 +51,7 @@ export default function PersistentDrawerLeft(props) {
   };
 
   function onClickItem(path) {
+    handleDrawerClose()
     setNav(path)
   }
 
