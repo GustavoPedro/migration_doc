@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../Components/Table';
 import axios from '../../data/axios';
+import Backdrop from '../../Components/Backdrop'
+import SnackBar from '../../Components/SnackBar'
 
 export default function ConditionalExpressionForm(props) {
-
+  const [loading,setLoading] = useState(false)
+  const [openSnackBar,setOpenSnackBar] = useState(false)
   const [project, setProject] = useState({})
   const [state, setState] = useState({
     columns: [
@@ -19,8 +22,16 @@ export default function ConditionalExpressionForm(props) {
     getData()
   }, []);
 
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setOpenSnackBar(false);
+};
+
   const getData = async () => {
     try {
+      setLoading(true)
       let project = localStorage.getItem("Project")
       if (project) {
         project = JSON.parse(project)
@@ -41,10 +52,14 @@ export default function ConditionalExpressionForm(props) {
     catch (err) {
       console.log(err)
     }
+    finally{
+      setLoading(false)
+    }
 
   }
 
-  const handleRowAdd = (newData) => {
+  const handleRowAdd = (newData) => {    
+    setLoading(true)
     const data = {
       ...newData,
       ProjectID: project.IdProject
@@ -57,14 +72,17 @@ export default function ConditionalExpressionForm(props) {
             data.push(res.data);
             return { ...prevState, data };
           });
+          setOpenSnackBar(true)  
         }
         console.log(res)
       }).catch(err => {
         console.log(err)
       })
+      .finally(_ => setLoading(false))
   }
 
   const handleRowUpdate = (oldData, condition) => {
+    setLoading(true)
     axios.put(`Conditions/${condition.Id}`, condition)
       .then(res => {
         console.log(res)
@@ -80,9 +98,11 @@ export default function ConditionalExpressionForm(props) {
       .catch(err => {
         console.log(err)
       })
+      .finally(_ => setLoading(false))
   }
 
   const handleRowDelete = (condition) => {
+    setLoading(true)
     axios.delete(`Conditions/${condition.Id}`)
       .then(res => {
         if (res.status == 200) {
@@ -96,10 +116,14 @@ export default function ConditionalExpressionForm(props) {
       .catch(err => {
         console.log(err)
       })
+      .finally(_ => setLoading(false))     
   }
 
   return (
     <div>
+      <Backdrop loading={loading}/>
+      <SnackBar msgType="sucess" msg="Condição cadastrada com sucesso" handleClose={handleCloseSnackBar} open={openSnackBar} />
+      <SnackBar msgType="err" msg="Não foi possível cadastrar condição" handleClose={handleCloseSnackBar} open={openSnackBar} />
       <Table state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} handleRowUpdate={handleRowUpdate} handleRowDelete={handleRowDelete} />
     </div>
   );
