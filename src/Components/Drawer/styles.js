@@ -54,9 +54,13 @@ const useStyles = makeStyles(theme => ({
       }),
       marginLeft: 0,
     },
+    buttonWhite:{
+      color:  '#FFF'
+    },
     Project:{
       marginLeft:20
     },
+   
   }));
 
   export default useStyles;

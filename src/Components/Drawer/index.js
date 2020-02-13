@@ -19,16 +19,16 @@ import BuildIcon from '@material-ui/icons/Build';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import useStyles from './styles'
 import { Redirect } from 'react-router-dom'
-
+import SelectItems from './TableSelectItems'
 
 
 export default function PersistentDrawerLeft(props) {
   const [nav, setNav] = useState(null)
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [project, setProject] = useState({})
-
+  const [openDialog, setOpenDialog] = useState(true)
 
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function PersistentDrawerLeft(props) {
       }
     }
     getProject()
-  },[])
+  }, [])
 
 
   const handleDrawerOpen = () => {
@@ -50,9 +50,21 @@ export default function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
+  const generateSelects = (itemsSelected) => {
+    console.log(itemsSelected)
+  }
+
+
   function onClickItem(path) {
-    handleDrawerClose()
     setNav(path)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
   }
 
   const getMenuItems = [{
@@ -66,7 +78,7 @@ export default function PersistentDrawerLeft(props) {
   {
     Title: 'Applications',
     path: '/project/applications'
-  }
+  },
   ]
 
   return (
@@ -96,6 +108,7 @@ export default function PersistentDrawerLeft(props) {
               Projeto:  {project.NameProject}
             </Typography>)
           }
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -122,6 +135,11 @@ export default function PersistentDrawerLeft(props) {
           ))}
         </List>
         <Divider />
+        <List>
+          <ListItem button key="genDoc" onClick={() => handleOpenDialog()}>
+            <ListItemText>Generate Documentation</ListItemText>
+          </ListItem>
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -132,6 +150,7 @@ export default function PersistentDrawerLeft(props) {
         {props.children}
         {nav && <Redirect to={nav} />}
       </main>
+      <SelectItems openDialog={openDialog} handleCloseDialog={handleCloseDialog} generateSelects={generateSelects}/>
     </div>
   );
 }
