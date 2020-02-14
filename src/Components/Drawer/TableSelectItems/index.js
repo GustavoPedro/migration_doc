@@ -22,14 +22,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
-function createData(name) {
-    return { name }
+function createData(name,id) {
+    return { name,id }
 }
 
-const rows = [
-    createData('Objects'),
-    createData('Conditional Expressions'),
-    createData('Applications'),
+const CONDITIONAL_EXPRESSIONS = 1
+const APPLICATIONS = 2
+const OBJECTS = 3
+
+const rows = [    
+    createData('Conditional Expressions',CONDITIONAL_EXPRESSIONS),
+    createData('Applications',APPLICATIONS),
+    createData('Objects',OBJECTS),
 
 ];
 
@@ -211,19 +215,19 @@ export default function EnhancedTable(props) {
 
     const handleSelectAllClick = event => {
         if (event.target.checked) {
-            const newSelecteds = rows.map(n => n.name);
+            const newSelecteds = rows.map(n => n.id);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -248,7 +252,7 @@ export default function EnhancedTable(props) {
     };
 
 
-    const isSelected = name => selected.indexOf(name) !== -1;
+    const isSelected = id => selected.indexOf(id) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -278,17 +282,17 @@ export default function EnhancedTable(props) {
                                     {stableSort(rows, getComparator(order, orderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row, index) => {
-                                            const isItemSelected = isSelected(row.name);
+                                            const isItemSelected = isSelected(row.id);
                                             const labelId = `enhanced-table-checkbox-${index}`;
 
                                             return (
                                                 <TableRow
                                                     hover
-                                                    onClick={event => handleClick(event, row.name)}
+                                                    onClick={event => handleClick(event, row.id)}
                                                     role="checkbox"
                                                     aria-checked={isItemSelected}
                                                     tabIndex={-1}
-                                                    key={row.name}
+                                                    key={row.id}
                                                     selected={isItemSelected}
                                                 >
                                                     <TableCell padding="checkbox">

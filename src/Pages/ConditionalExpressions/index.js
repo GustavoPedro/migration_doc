@@ -6,7 +6,9 @@ import SnackBar from '../../Components/SnackBar'
 
 export default function ConditionalExpressionForm(props) {
   const [loading,setLoading] = useState(false)
-  const [openSnackBar,setOpenSnackBar] = useState(false)
+  const [openSnackBarSucess,setOpenSnackBarSucess] = useState(false)
+  const [openSnackBarErr,setOpenSnackBarErr] = useState(false)
+  const [msg,setMsg] = useState('')
   const [project, setProject] = useState({})
   const [state, setState] = useState({
     columns: [
@@ -26,7 +28,8 @@ export default function ConditionalExpressionForm(props) {
     if (reason === 'clickaway') {
     return;
     }
-    setOpenSnackBar(false);
+    setOpenSnackBarSucess(false);
+    setOpenSnackBarErr(false)
 };
 
   const getData = async () => {
@@ -50,7 +53,9 @@ export default function ConditionalExpressionForm(props) {
       }
     }
     catch (err) {
-      console.log(err)
+      setMsg('Não foi possível carregar as condições')
+      setOpenSnackBarErr(true)
+      
     }
     finally{
       setLoading(false)
@@ -72,11 +77,14 @@ export default function ConditionalExpressionForm(props) {
             data.push(res.data);
             return { ...prevState, data };
           });
-          setOpenSnackBar(true)  
+          setMsg('Condição cadastrada com sucesso')
+          setOpenSnackBarSucess(true)  
         }
         console.log(res)
       }).catch(err => {
         console.log(err)
+        setMsg('Não foi possível cadastrar condição')
+        setOpenSnackBarErr(true)
       })
       .finally(_ => setLoading(false))
   }
@@ -92,11 +100,15 @@ export default function ConditionalExpressionForm(props) {
             data[data.indexOf(oldData)] = condition;
             return { ...prevState, data };
           });
+          setMsg('Condição atualizada com sucesso')
+          setOpenSnackBarSucess(true)         
         }
         return false;
       })
       .catch(err => {
         console.log(err)
+        setMsg('Não foi possível atualizar condição')
+        setOpenSnackBarErr(true)        
       })
       .finally(_ => setLoading(false))
   }
@@ -111,10 +123,14 @@ export default function ConditionalExpressionForm(props) {
             data.splice(data.indexOf(condition), 1);
             return { ...prevState, data };
           });
+          setMsg('Condição deletada com sucesso')
+          setOpenSnackBarSucess(true)
         }
       })
       .catch(err => {
         console.log(err)
+        setMsg('Não foi possível deletar condição')
+        setOpenSnackBarErr(true)
       })
       .finally(_ => setLoading(false))     
   }
@@ -122,8 +138,8 @@ export default function ConditionalExpressionForm(props) {
   return (
     <div>
       <Backdrop loading={loading}/>
-      <SnackBar msgType="sucess" msg="Condição cadastrada com sucesso" handleClose={handleCloseSnackBar} open={openSnackBar} />
-      <SnackBar msgType="err" msg="Não foi possível cadastrar condição" handleClose={handleCloseSnackBar} open={openSnackBar} />
+      <SnackBar msgType="sucess" msg={msg} handleClose={handleCloseSnackBar} open={openSnackBarSucess} />
+      <SnackBar msgType="err" msg={msg} handleClose={handleCloseSnackBar} open={openSnackBarErr} />
       <Table state={state} setState={setState} title={'Conditional Expressions'} handleRowAdd={handleRowAdd} handleRowUpdate={handleRowUpdate} handleRowDelete={handleRowDelete} />
     </div>
   );

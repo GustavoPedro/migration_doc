@@ -16,7 +16,7 @@ export default function CustomizedSnackbars(props) {
  
     return (
         <div className={classes.root}>      
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
             {
                 msgType == 'err' ? <Alert onClose={handleClose} severity="error">{msg}</Alert> : <Alert onClose={handleClose} severity="success">{msg}</Alert>
             }           

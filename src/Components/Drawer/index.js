@@ -20,7 +20,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import useStyles from './styles'
 import { Redirect } from 'react-router-dom'
 import SelectItems from './TableSelectItems'
-
+import axios from '../../data/axios'
+import SnackBar from '../../Components/SnackBar'
 
 export default function PersistentDrawerLeft(props) {
   const [nav, setNav] = useState(null)
@@ -29,7 +30,9 @@ export default function PersistentDrawerLeft(props) {
   const [open, setOpen] = useState(true);
   const [project, setProject] = useState({})
   const [openDialog, setOpenDialog] = useState(true)
-
+  const [openSnackBarSucess, setOpenSnackBarSucess] = useState(false)
+  const [openSnackBarErr, setOpenSnackBarErr] = useState(false)
+  const [msg, setMsg] = useState('')
 
   useEffect(() => {
     const getProject = () => {
@@ -41,6 +44,13 @@ export default function PersistentDrawerLeft(props) {
     getProject()
   }, [])
 
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackBarSucess(false);
+    setOpenSnackBarErr(false)
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -51,7 +61,26 @@ export default function PersistentDrawerLeft(props) {
   };
 
   const generateSelects = (itemsSelected) => {
-    console.log(itemsSelected)
+    let req = `?projectId=${project.IdProject}`;
+    for (let i of itemsSelected) {
+      req += `&itemsSelected=${i}`
+    }
+    axios.get(`Projects/generateSelects${req}`)
+      .then(res => {
+        if (res.status == 200) {
+          setMsg('Selects Gerados com sucesso')
+          setOpenSnackBarSucess(true)
+        }
+        else {
+          console.log(res)
+          setMsg('Não foi possível gerar selects')
+          setOpenSnackBarErr(true)
+        }
+      })
+      .catch(err => {
+        setMsg('Não foi possível gerar selects')
+        setOpenSnackBarErr(true)
+      })
   }
 
 
@@ -82,75 +111,81 @@ export default function PersistentDrawerLeft(props) {
   ]
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Objetos de Migração
+    <div>
+      <SnackBar msgType="sucess" msg={msg} handleClose={handleCloseSnackBar} open={openSnackBarSucess} />
+      <SnackBar msgType="err" msg={msg} handleClose={handleCloseSnackBar} open={openSnackBarErr} />
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              Objetos de Migração
           </Typography>
-          {
-            project && (<Typography variant="h6" className={classes.Project} noWrap>
-              Projeto:  {project.NameProject}
-            </Typography>)
-          }
+            {
+              project && (<Typography variant="h6" className={classes.Project} noWrap>
+                Projeto:  {project.NameProject}
+              </Typography>)
+            }
 
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {getMenuItems.map((text, index) => (
-            <ListItem button key={text.Title} onClick={() => onClickItem(text.path)}>
-              <ListItemIcon>{index % 2 === 0 ? <BuildIcon /> : <QuestionAnswerIcon />}</ListItemIcon>
-              <ListItemText primary={text.Title} />
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            {getMenuItems.map((text, index) => (
+              <ListItem button key={text.Title} onClick={() => onClickItem(text.path)}>
+                <ListItemIcon>{index % 2 === 0 ? <BuildIcon /> : <QuestionAnswerIcon />}</ListItemIcon>
+                <ListItemText primary={text.Title} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="genDoc" onClick={() => handleOpenDialog()}>
+              <ListItemText>Generate Documentation</ListItemText>
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          <ListItem button key="genDoc" onClick={() => handleOpenDialog()}>
-            <ListItemText>Generate Documentation</ListItemText>
-          </ListItem>
-        </List>
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
-        {props.children}
-        {nav && <Redirect to={nav} />}
-      </main>
-      <SelectItems openDialog={openDialog} handleCloseDialog={handleCloseDialog} generateSelects={generateSelects}/>
+          </List>
+        </Drawer>
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: open,
+          })}
+        >
+          <div className={classes.drawerHeader} />
+          {props.children}
+          {nav && <Redirect to={nav} />}
+        </main>
+        <SelectItems openDialog={openDialog} handleCloseDialog={handleCloseDialog} generateSelects={generateSelects} />
+
+      </div>
     </div>
+
   );
 }
