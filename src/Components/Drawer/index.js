@@ -112,6 +112,10 @@ export default function PersistentDrawerLeft(props) {
     Title: 'Global Data Restrictions',
     path: '/project/restrictions'
   },
+  {
+    Title: 'Automation Scripts',
+    path: '/project/autoScript'
+  },
   ]
 
   return (

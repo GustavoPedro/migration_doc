@@ -7,6 +7,7 @@ import ProjectForm from './Pages/Project'
 import ConditionalExpressionForm from './Pages/ConditionalExpressions'
 import ApplicationsForm from './Pages/Applications'
 import GlobalDataRestrictionsForm from './Pages/GlobalDataRestrict'
+import AutoScriptsForm from './Pages/AutoScripts'
 
 const MainRoute = () => {
     return (
@@ -18,6 +19,7 @@ const MainRoute = () => {
                 <Route path="/project/condExpression" component={ConditionalExpressionForm}/>
                 <Route path="/project/applications" component={ApplicationsForm}/>
                 <Route path="/project/restrictions" component={GlobalDataRestrictionsForm}/>
+                <Route path="/project/autoScript" component={AutoScriptsForm}/>
             </Switch>
         </Drawer>
     </BrowserRouter>
