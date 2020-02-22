@@ -29,7 +29,7 @@ export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [project, setProject] = useState({})
-  const [openDialog, setOpenDialog] = useState(true)
+  const [openDialog, setOpenDialog] = useState(false)
   const [openSnackBarSucess, setOpenSnackBarSucess] = useState(false)
   const [openSnackBarErr, setOpenSnackBarErr] = useState(false)
   const [msg, setMsg] = useState('')
@@ -107,6 +107,10 @@ export default function PersistentDrawerLeft(props) {
   {
     Title: 'Applications',
     path: '/project/applications'
+  },
+  {
+    Title: 'Global Data Restrictions',
+    path: '/project/restrictions'
   },
   ]
 
