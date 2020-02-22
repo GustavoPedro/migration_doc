@@ -11,12 +11,12 @@ export default function AttributesForm(props) {
             { title: 'Description', field: 'description' },
         ],
         data: [
-            { name: 'Gustavo', description: 'Pedro' }
+           
         ],
     });
     return (
         <div className={classes.paper}>
-            <UtilsTable state={tableAttributes} setState={setTableAttributes} title={`Attributes for object ${object && object.name}`} />
+            <UtilsTable state={tableAttributes} setState={setTableAttributes} title={`Attributes for object ${object && object.Name}`} />
         </div>
     )
 }

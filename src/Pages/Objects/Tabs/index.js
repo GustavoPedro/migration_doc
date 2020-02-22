@@ -39,10 +39,10 @@ function a11yProps(index) {
 }
 
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const {object} = props
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -58,7 +58,7 @@ export default function SimpleTabs() {
       </AppBar>
       <TabPanel value={value} index={0}>
         <div style={{ backgroundColor: '#cfe8fc' }}>
-            <AttributesForm/>
+            <AttributesForm object={object}/>
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
