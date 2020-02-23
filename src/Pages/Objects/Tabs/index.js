@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AttributesForm from '../Attributes'
 import useStyles from './styles'
+import RelationshipsForm from '../MaxRelationships'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,7 +63,7 @@ export default function SimpleTabs(props) {
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+          <RelationshipsForm object={object}/>
         </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
