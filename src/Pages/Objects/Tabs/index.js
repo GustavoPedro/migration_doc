@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import AttributesForm from '../Attributes'
 import useStyles from './styles'
 import RelationshipsForm from '../MaxRelationships'
+import LookupMapForm from '../LookupMap'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,8 +67,8 @@ export default function SimpleTabs(props) {
           <RelationshipsForm object={object}/>
         </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
-        </TabPanel>
+        <LookupMapForm object={object}/>
+      </TabPanel>
     </div>
   );
 }
