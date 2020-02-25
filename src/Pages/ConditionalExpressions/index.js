@@ -16,7 +16,7 @@ export default function ConditionalExpressionForm(props) {
       { title: 'Description', field: 'Description' },
     ],
     data: [
-      { id: 'Eae', Conditionnum: 'Gustavo', Description: 'Pedro' }
+      
     ]
   })
 
